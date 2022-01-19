@@ -1,3 +1,4 @@
+#!/usr/bin/env groovy
 pipeline {
    agent any
    stages {
@@ -5,8 +6,7 @@ pipeline {
             steps {
                 sh "rm -r -f  gitclone"
                 sh "mkdir gitclone"
-                //sh "cd gitclone checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Tufailyaseen/Jenkins_pipeline.git']]])"
-                //sh "ls -lart ./*"
+                
                 dir ('gitclone') {
                     checkout([$class: 'GitSCM', branches: [[name: '*/dev']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Tufailyaseen/todo_app_docker-.git']]])
                 }
@@ -32,7 +32,7 @@ pipeline {
           dir('gitclone'){
                 
                  
-                 docker-compose -f docker-compose.prod.yml up -d --build
+               sh " docker-compose -f docker-compose.prod.yml up -d --build"
             }
        }
    }
