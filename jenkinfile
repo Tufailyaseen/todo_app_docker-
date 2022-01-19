@@ -1,0 +1,74 @@
+pipeline {
+   agent any
+   stages {
+        stage('Checkout') {
+            steps {
+                sh "rm -r -f  gitclone"
+                sh "mkdir gitclone"
+                //sh "cd gitclone checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Tufailyaseen/Jenkins_pipeline.git']]])"
+                //sh "ls -lart ./*"
+                dir ('gitclone') {
+                    checkout([$class: 'GitSCM', branches: [[name: '*/dev']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Tufailyaseen/todo_app_docker-.git']]])
+                }
+                 sh "ls -lart ./*"
+            }
+        }
+        
+        stage('Build'){
+            steps
+            {
+            
+             dir('gitclone'){
+                   sh "docker stop todo-app_frontend-todo_1 todo-app_api-todo todo-app_mongodb_1"
+               
+                   sh "docker rm todo-app_frontend-todo_1 todo-app_api-todo todo-app_mongodb_1"
+                 
+               
+             }
+        }
+   }
+   stage ('Test'){
+       steps {
+          dir('gitclone'){
+                
+                 
+                 docker-compose -f docker-compose.prod.yml up -d --build
+            }
+       }
+   }
+   
+}
+environment {
+        EMAIL_TO = 'malik.tufail@zigron.com'
+    }
+post {
+        failure {
+            emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}', 
+                    to: "${EMAIL_TO}", 
+                    subject: 'Build failed in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        unstable {
+            emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}', 
+                    to: "${EMAIL_TO}", 
+                    subject: 'Unstable build in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        changed {
+            emailext body: 'Check console output at $BUILD_URL to view the results.', 
+                    to: "${EMAIL_TO}", 
+                    subject: 'Jenkins build is back to normal: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        success {
+            emailext body: 'Check console output at $BUILD_URL to view the results.', 
+                    to: "${EMAIL_TO}", 
+                    subject: 'Successfull build: $PROJECT_NAME - #$BUILD_NUMBER'
+            
+        }
+        aborted{
+            emailext body: 'Check console output at $BUILD_URL to view the results.', 
+                    to: "${EMAIL_TO}", 
+                    subject: 'Build Abort: $PROJECT_NAME - #$BUILD_NUMBER'
+            
+        }
+  
+}
+}
