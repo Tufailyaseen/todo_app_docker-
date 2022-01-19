@@ -19,9 +19,9 @@ pipeline {
             {
             
              dir('gitclone'){
-                   sh "docker stop todo-app_frontend-todo_1 todo-app_api-todo todo-app_mongodb_1"
+                   sh "docker stop todo-app_frontend-todo_1 todo-app_api-todo_1  todo-app_mongodb_1"
                
-                   sh "docker rm todo-app_frontend-todo_1 todo-app_api-todo todo-app_mongodb_1"
+                   sh "docker rm todo-app_frontend-todo_1 todo-app_api-todo_1 todo-app_mongodb_1"
                  
                
              }
