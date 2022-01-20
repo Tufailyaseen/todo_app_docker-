@@ -2,38 +2,38 @@
 pipeline {
    agent any
    stages {
-        stage('Checkout') {
-            steps {
-                sh "rm -r -f  gitclone"
-                sh "mkdir gitclone"
+       // stage('Checkout') {
+           // steps {
+             //   sh "rm -r -f  gitclone"
+               // sh "mkdir gitclone"
                 
-                dir ('gitclone') {
-                    checkout([$class: 'GitSCM', branches: [[name: '*/dev']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Tufailyaseen/todo_app_docker-.git']]])
-                }
+             //   dir ('gitclone') {
+               //     checkout([$class: 'GitSCM', branches: [[name: '*/dev']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Tufailyaseen/todo_app_docker-.git']]])
+           //     }
                  sh "ls -lart ./*"
-            }
-        }
+         //   }
+       // }
         
         stage('Build'){
             steps
             {
             
-             dir('gitclone'){
+             
                    sh "docker stop gitclone_frontend-todo_1  gitclone_api-todo_1   gitclone_mongodb_1"
                    sh "docker rm  gitclone_frontend-todo_1  gitclone_api-todo_1   gitclone_mongodb_1"
                    
                  
                
-             }
+            
         }
    }
    stage ('Test'){
        steps {
-          dir('gitclone'){
+          
                 
                  
                sh " docker-compose -f docker-compose.prod.yml up -d --build"
-            }
+            
        }
    }
    
