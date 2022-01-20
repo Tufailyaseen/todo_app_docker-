@@ -10,7 +10,7 @@ pipeline {
              //   dir ('gitclone') {
                //     checkout([$class: 'GitSCM', branches: [[name: '*/dev']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Tufailyaseen/todo_app_docker-.git']]])
            //     }
-                 sh "ls -lart ./*"
+                // sh "ls -lart ./*"
          //   }
        // }
         
