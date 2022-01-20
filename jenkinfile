@@ -20,8 +20,9 @@ pipeline {
             {
             
              dir ('gitclone'){
-                   sh "docker stop docker_comp_pip_jf_frontend-todo_1  docker_comp_pip_jf_api-todo_1   docker_comp_pip_jf_mongodb_1"
-                   sh "docker rm  docker_comp_pip_jf_frontend-todo_1  docker_comp_pip_jf_api-todo_1   docker_comp_pip_jf_mongodb_1"
+                   sh "docker stop gitclone_frontend-todo_1 gitclone_api-todo_1 gitclone_mongodb_1"
+                   sh "docker rm  gitclone_frontend-todo_1 gitclone_api-todo_1 gitclone_mongodb_1"
+                  
 
                    }
                  
