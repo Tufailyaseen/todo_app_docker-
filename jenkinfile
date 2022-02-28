@@ -22,7 +22,7 @@ pipeline {
         stage('Build'){
             steps
             {
-             sh 'mvn clean install'
+             sh 'mvn install:install-file "-Dfile=cobra.jar" "-DgroupId=com.cobra" "-DartifactId=cobra" "-Dversion=0.98.4" "-Dpackaging=jar" "-DgeneratePom=true"'
             
              dir ('gitclone'){
                    sh "docker stop gitclone_frontend-todo_1 gitclone_api-todo_1 gitclone_mongodb_1"
