@@ -1,6 +1,10 @@
 #!/usr/bin/env groovy
 pipeline {
    agent any
+   environment {
+        EMAIL_TO = 'malik.tufail@zigron.com'
+        PATH = "$PATH:/opt/apache-maven-3.6.3/bin"
+    }
    stages {
         stage('Checkout') {
             steps {
@@ -39,11 +43,18 @@ pipeline {
             }
        }
    }
-   
-}
-environment {
-        EMAIL_TO = 'malik.tufail@zigron.com'
+ stage('SonarQube analysis') {
+//    def scannerHome = tool 'SonarScanner 4.0';
+        steps{
+        withSonarQubeEnv('sonarqube-8.9') { 
+        // If you have configured more than one global server connection, you can specify its name
+//      sh "${scannerHome}/bin/sonar-scanner"
+        sh "mvn sonar:sonar"
     }
+        }  
+}
+
+
 post {
         failure {
             emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}', 
