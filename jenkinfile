@@ -22,7 +22,7 @@ pipeline {
         stage('Build'){
             steps
             {
-             sh 'mvn clean package'
+             sh 'mvn clean install'
             
              dir ('gitclone'){
                    sh "docker stop gitclone_frontend-todo_1 gitclone_api-todo_1 gitclone_mongodb_1"
