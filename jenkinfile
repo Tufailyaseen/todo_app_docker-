@@ -3,7 +3,7 @@ pipeline {
    agent any
    environment {
         EMAIL_TO = 'malik.tufail@zigron.com'
-        PATH = "$PATH:/opt/apache-maven-3.6.3/bin"
+        PATH = "$PATH:/usr/share/maven/bin"
     }
    stages {
         stage('Checkout') {
