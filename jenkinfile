@@ -49,10 +49,10 @@ pipeline {
         steps {
             script{
             def scannerHome = tool 'SonarQube';
-            withSonarQubeEnv('sonarqube') {
-                sh "${tool("sonarscan")}/bin/sonar-scanner \
-                    -Dsonar.projectKey=Demo-project \
-                    -Dsonar.projectName=Demo-project"
+            withSonarQubeEnv('sonarqube 9.3') {
+                sh "${tool("SonarQube")}/bin/sonar-scanner \
+                    -Dsonar.projectKey=reactapp \
+                    -Dsonar.projectName=reactapp"
             }
             }
         }
